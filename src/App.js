@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
 
 let defaultStyle = {
   color: '#fff'
@@ -88,13 +88,14 @@ class Filter extends Component {
 
 class Playlist extends Component {
   render() {
+    let playlist = this.props.playlist
     return (
       <div style={{...defaultStyle, display: 'inline-block', width: "25%"}}><img/>
-      <h3>Playlist Name</h3>
+      <h3>{playlist.name}</h3>
       <ul style={{'list-style': 'none'}}>
-        <li>Song 1</li>
-        <li>Song 2</li>
-        <li>Song 3</li>
+        {playlist.songs.map(song => 
+          <li>{song.name}</li>
+        )}
       </ul>
       </div>
     );
@@ -103,15 +104,15 @@ class Playlist extends Component {
 
 class App extends Component {
   constructor() {
-    super();
+    super()
     this.state = {serverData: {}}
   }
 
-componentDidMount() {
-  setTimeout(() => {
-    this.setState({serverData: fakeServerData})
-  }, 1000)
-}
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({serverData: fakeServerData})
+    }, 1000)
+  }
 
   render() {
     let name = 'Nate';
@@ -123,12 +124,12 @@ componentDidMount() {
         <h1 style={{...defaultStyle, 'font-size': '54px'}}>
           {this.state.serverData.user.name}'s Playlists
         </h1>}
-          <PlaylistCounter playlists={this.state.serverData.user.playlists}/>
-          <HoursCounter playlists={this.state.serverData.user.playlists}/>
+        <PlaylistCounter playlists={this.state.serverData.user.playlists}/>
+        <HoursCounter playlists={this.state.serverData.user.playlists}/>
         <Filter/>
-        <Playlist/>
-        <Playlist/>
-        <Playlist/>
+        {this.state.serverData.user.playlists.map(playlist => 
+          <Playlist playlist={playlist}/> 
+        )}
         </div> : <h1 style={defaultStyle}>Loading...</h1>
         }
       </div>
